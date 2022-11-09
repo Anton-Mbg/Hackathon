@@ -1,1 +1,6 @@
-# Hackathon
+## Hackathon
+
+#TODO:
+
+- [ ] Data Cleaning 
+- [ ] Korrelationsanalyse
