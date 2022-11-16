@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="72db1770-9ef6-4008-add5-f36621ac98ec" name="Changes" comment="rearraging code">
-      <change afterPath="$PROJECT_DIR$/src/Korrelationsanalyse2.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Correlationsanalyse.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/Correlationsanalyse.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data Cleaning.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data Cleaning.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Korrelationsanalyse2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/Wilcoxontest.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +20,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -39,7 +46,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Facets" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -52,7 +59,10 @@
       <option name="presentableId" value="Default" />
       <updated>1668005143894</updated>
       <workItem from="1668008128559" duration="128000" />
-      <workItem from="1668009497476" duration="1370000" />
+      <workItem from="1668009224975" duration="742000" />
+      <workItem from="1668164220919" duration="590000" />
+      <workItem from="1668240650394" duration="107000" />
+      <workItem from="1668608211564" duration="6933000" />
     </task>
     <servers />
   </component>
@@ -69,5 +79,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
