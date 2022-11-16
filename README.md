@@ -7,3 +7,5 @@
 
 - [ ] Data Cleaning 
 - [ ] Korrelationsanalyse
+- [ ] Verteilung der Daten testen
+
