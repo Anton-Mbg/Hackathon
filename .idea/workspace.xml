@@ -8,6 +8,9 @@
       <change beforePath="$PROJECT_DIR$/HackathonMicrobiomeData/CAD/ClassCAD_train_withoutNames.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Normalisierung.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalisierung.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/OutlierDetection.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/OutlierDetection.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SVD.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/SVD.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SVD_SDD/SVD_SDD.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/SVD_SDD/SVD_SDD.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +30,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -46,6 +50,12 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "last_opened_file_path": "/home/antonthiel/PycharmProjects/Hackathon"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
@@ -77,6 +87,21 @@
       <workItem from="1670398887138" duration="5146000" />
       <workItem from="1670404428766" duration="77000" />
     </task>
+    <task id="LOCAL-00001" summary="Wilcoxon">
+      <created>1669823404351</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1669823404351</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Wilcoxon">
+      <created>1669823415177</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1669823415177</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -101,6 +126,16 @@
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="jupyter-line">
+          <url>notebook:///home/antonthiel/PycharmProjects/Hackathon/src/SVD_SDD/SVD_SDD.ipynb</url>
+          <line>63</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Hackathon$EFAnalyse.coverage" NAME="EFAnalyse Coverage Results" MODIFIED="1668612880695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
