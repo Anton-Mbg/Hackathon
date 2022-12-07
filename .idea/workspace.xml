@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="72db1770-9ef6-4008-add5-f36621ac98ec" name="Changes" comment="New Files from EFS heiderlab" />
+    <list default="true" id="72db1770-9ef6-4008-add5-f36621ac98ec" name="Changes" comment="Wilcoxon">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HackathonMicrobiomeData/CAD/ClassCAD_train_withoutNames.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Normalisierung.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalisierung.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/OutlierDetection.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src/OutlierDetection.ipynb" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,25 +37,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e51ef525-49fb-4534-9ec9-e0d8976f8e70" name="Changes" comment="" />
       <created>1668609723524</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1668609723524</updated>
       <workItem from="1668609725286" duration="1900000" />
+      <workItem from="1669973937935" duration="1732000" />
+      <workItem from="1669976318240" duration="13322000" />
+      <workItem from="1670398887138" duration="5146000" />
+      <workItem from="1670404428766" duration="77000" />
     </task>
     <servers />
   </component>
@@ -65,10 +92,15 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Wilcoxon" />
     <option name="LAST_COMMIT_MESSAGE" value="Wilcoxon" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Hackathon$EFAnalyse.coverage" NAME="EFAnalyse Coverage Results" MODIFIED="1668612880695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
