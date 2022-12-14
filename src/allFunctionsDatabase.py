@@ -266,7 +266,7 @@ def removeNoise(df, clusterLabels):
 def reduceData(df):
     df_pca = pca(df.iloc[0:, 1:])
     clusterLabels = clustering(df_pca)
-    df_reduced = removeNoise(df_new, clusterLabels)
+    df_reduced = removeNoise(df, clusterLabels)
     return df_reduced
 
 
