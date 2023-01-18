@@ -8,6 +8,8 @@ from sklearn.decomposition import PCA
 from matplotlib import pyplot as pl
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
+from statistics import mode
+
 
 
 
@@ -175,8 +177,16 @@ def minmaxNormalize(df):
 
     return df
 
+def stdNormalize(df):
 
+    for col in df.columns[1:-1]:
+        colMean = df[col].mean()
+        colSTD = np.std(df[col])
+        for i in range(len(df[col])):
+            copy = df[col][i]
+            df[col][i] = (copy - colMean)/colSTD
 
+    return df
 
 
 def createMetricsMatrix(df):
@@ -199,7 +209,7 @@ def createMetricsMatrix(df):
 
 def getIndicesWithLowByMeanThreshhold(df, threshhold):
     header = df.columns.values[1:-1]
-    df_new = df
+    df_new = df.copy()
     for i in range(1, df.shape[1]-1):
         column = df.iloc[:,i].values
         if np.mean(column) < threshhold:
@@ -215,31 +225,56 @@ def boxplotHealthyAndSick(df):
     pl.figure(2)
     df_sick.boxplot()
 
-def pca(df):
+def pca(df, n=2):
+    '''
+    Creates a PCA of the data in the dataframe. This method will remove the label column,
+    but expects, that the sample_ID column is already removed from the df. For 2D data,
+    (n=2), the PCA is plottet.
+    :param df: df without sample_ID but labels column
+    :return: Dataframe of the PCA with n compoments
+    '''
     df_tmp = df.copy()
-    pca = PCA(n_components=2)
+    pca = PCA(n_components=n)
     header = df_tmp.columns.values[1:]
     df_withoutLabels = df_tmp.drop(columns=header[-1])
+
     principalComponents = pca.fit_transform(df_withoutLabels.values)
     df_principal_components = pd.DataFrame(principalComponents)
     df_principal_components['label'] = df.iloc[:,-1].values
-    df_pc_healthy = df_principal_components[(df_principal_components.label == 0)]
-    df_pc_sick = df_principal_components[(df_principal_components.label == 1)]
-    df_pc_healthy = df_pc_healthy.drop(columns=header[-1])
-    df_pc_sick = df_pc_sick.drop(columns=header[-1])
-    group = np.array([0,1])
-    pl.figure(3)
-    pl.scatter(np.array(df_pc_healthy.values[0:, 0]), np.array(df_pc_healthy.values[0:, 1]))
-    pl.scatter(np.array(df_pc_sick.values[0:, 0]), np.array(df_pc_sick.values[0:, 1]))
+    if(n == 2):
+        df_pc_healthy = df_principal_components[(df_principal_components.label == 0)]
+        df_pc_T2D = df_principal_components[(df_principal_components.label == 1)]
+        df_pc_IBD = df_principal_components[(df_principal_components.label == 2)]
+        df_pc_CAD = df_principal_components[(df_principal_components.label == 3)]
+        df_pc_CKD = df_principal_components[(df_principal_components.label == 4)]
+        df_pc_healthy = df_pc_healthy.drop(columns=header[-1])
+        df_pc_T2D = df_pc_T2D.drop(columns=header[-1])
+        df_pc_IBD = df_pc_IBD.drop(columns=header[-1])
+        df_pc_CAD = df_pc_CAD.drop(columns=header[-1])
+        df_pc_CKD = df_pc_CKD.drop(columns=header[-1])
+
+        pl.figure(3)
+        pl.scatter(np.array(df_pc_healthy.values[0:, 0]), np.array(df_pc_healthy.values[0:, 1]))
+        pl.scatter(np.array(df_pc_T2D.values[0:, 0]), np.array(df_pc_T2D.values[0:, 1]))
+        pl.scatter(np.array(df_pc_IBD.values[0:, 0]), np.array(df_pc_IBD.values[0:, 1]))
+        pl.scatter(np.array(df_pc_CAD.values[0:, 0]), np.array(df_pc_CAD.values[0:, 1]))
+        pl.scatter(np.array(df_pc_CKD.values[0:, 0]), np.array(df_pc_CKD.values[0:, 1]))
+        #pl.show()
 
     return df_principal_components
 
-def clustering(df):
+def clustering(df, eps=0.5, printCluster=False):
+    '''
+    Clusters the data of a df with DBSCAN. Data is normalized before clustering
+    :param df:
+    :param eps: The distance for clustering (Distance should fit with the normalized data)
+    :param printCluster: Prints the clustering, set only true for 2D-daata
+    :return:
+    '''
     df_tmp = df.copy()
     header = df_tmp.columns.values[1:]
-    #print(df.drop(columns=header[-1]))
     df_n = StandardScaler().fit_transform(df_tmp.drop(columns=header[-1]).values)
-    clustering = DBSCAN(eps=0.5, min_samples=2).fit(df_n)
+    clustering = DBSCAN(eps=eps, min_samples=2).fit(df_n)
     labels = df.iloc[:,-1].values
 
     df_tmp = pd.DataFrame(df_n)
@@ -248,25 +283,45 @@ def clustering(df):
     for i in set(clustering.labels_):
         clusterDf.append(df_tmp[(df_tmp.cluster == i)])
 
-    pl.figure(4)
-    header = df_tmp.columns.values[1:]
-    for cDf in clusterDf:
-        cDf_tmp = cDf.drop(columns=header[-1]).values
-        print(cDf.drop(columns='cluster').values[0:, 0])
-        pl.scatter(np.array(cDf_tmp[0:, 0]), np.array(cDf_tmp[0:, 1]))
+    if(printCluster):
+        pl.figure(4)
+        header = df_tmp.columns.values[1:]
+        for cDf in clusterDf:
+            cDf_tmp = cDf.drop(columns=header[-1]).values
+            pl.scatter(np.array(cDf_tmp[0:, 0]), np.array(cDf_tmp[0:, 1]))
 
     return clustering.labels_
 
-def removeNoise(df, clusterLabels):
+def removeNoise(df, clusterLabels, keepMainCluster=True):
+    '''
+    Given a dataframe and a set of clusters, this method will remove all samples with a
+    certain cluster.
+    :param df: dataframe
+    :param clusterLabels: The cluster labels of the samples
+    :param keepMainCluster: If false, only samples with the cluster label noise will be removed
+    (this means they have eps radius without neighbor). If true only the elements of the main
+    cluster are kept.
+    :return:
+    '''
     df['cluster'] = clusterLabels
-    df = df[(df.cluster != -1)]
-
+    if(keepMainCluster):
+        df = df[(df.cluster != -1)]
+    else:
+        mainCluster = mode(clusterLabels)
+        df = df[(df.cluster == mainCluster)]
+    df = df.reset_index(drop=True)
     return df.drop(columns='cluster')
 
 def reduceData(df):
-    df_pca = pca(df.iloc[0:, 1:])
+    '''
+    Removes data, which consists mainly of 0 entries as samples which are considered as outliers.
+    :param df:
+    :return:
+    '''
+    df_red = getIndicesWithLowByMeanThreshhold(df, 3)
+    df_pca = pca(df_red.iloc[0:, 1:])
     clusterLabels = clustering(df_pca)
-    df_reduced = removeNoise(df, clusterLabels)
+    df_reduced = removeNoise(df_red, clusterLabels, False)
     return df_reduced
 
 
@@ -289,7 +344,7 @@ def unionMatrix(level, meanFill = False):
     dataframes = []
     diseases = ['T2D', 'IBD', 'CAD', 'CKD']
     for i in diseases:
-        df = pd.read_csv('../HackathonMicrobiomeData/'+ i +'/' + level + i + '_train.csv')
+        df = pd.read_csv('../HackathonMicrobiomeData/' + i + '/' + level + i + '_train.csv')
         dataframes.append(df)
 
     unionHeader = []
@@ -353,8 +408,68 @@ def unionMatrix(level, meanFill = False):
 
     return df_union
 
+def treeBasedFeatureSelection(df):
+    from sklearn.ensemble import ExtraTreesClassifier
+    from sklearn.feature_selection import SelectFromModel
+
+    Y = np.array(df[["label"]]).ravel()
+    X = df.drop(["label", "sample_ID"], axis = 1)
+    clf = ExtraTreesClassifier(n_estimators=50)
+    clf = clf.fit(X, Y)
+    print(clf.feature_importances_)
+    model = SelectFromModel(clf, prefit=True)
+    X_new = model.transform(X)
+    #print(model.get_feature_names_out())
+    print(model.get_support())
+    selected_features = model.get_support()
+    selected_features = selected_features.tolist()
+    selected_features.insert(0, True)
+    selected_features.append(True)
+    print(selected_features)
+    column_indices = []
+    # Iterate over the list
+    for i, item in enumerate(selected_features):
+    # If the item is True, append its index to the list
+        if item:
+            column_indices.append(i)
+
+    print('New shape', X_new.shape)
+    X_new = np.concatenate((X_new, Y.reshape(-1, 1)), axis=1)
+    #X_new = np.concatenate((df["sample_ID"].values.reshape(-1, 1), axis=1))
+    #df_new = pd.DataFrame(data=X_new, columns=df.columns[])+
+    print(column_indices)
+    print(df.columns[column_indices])
+    selected_features = df.columns[column_indices]
+    df_new = df[selected_features]
+    return df_new
+
+
+def pipeline():
+    level = 'class'
+
+    df = unionMatrix(level)
+    print('union', df.shape)
+
+    # Use alternatively the tree based feature selection, or the reduce data method (remove outliers ond zero columns)
+    #df = treeBasedFeatureSelection(df)
+    df = reduceData(df)
+    print('reducedUnion', df.shape)
+
+    pca(df.drop(columns=df.columns.values[0]))
+
+    df.to_csv('unionMatrix_Reduced_' + level + '.csv', index=False)
+
+    df = stdNormalize(df)
+
+    #treeBasedFeatureSelection(df.drop(["label", "sample_ID"]), df["label"])
+    df.to_csv('unionMatrix_Reduced_Normalized_' + level + '.csv', index=False)
+
+    df = df.drop(columns=df.columns.values[0])
+    df.to_csv('unionMatrix_Reduced_Normalized_withoutSampleID_' + level + '.csv', index=False)
 
 
 
+if __name__ == "__main__":
+    pipeline()
 
 
