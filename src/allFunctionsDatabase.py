@@ -182,12 +182,22 @@ def stdNormalize(df):
     for col in df.columns[1:-1]:
         colMean = df[col].mean()
         colSTD = np.std(df[col])
+        #print(df[col, 0])
         for i in range(len(df[col])):
-            copy = df[col][i]
-            df[col][i] = (copy - colMean)/colSTD
-
+            #copy = df[col][i]
+            df[col][i] = (df[col][i] - colMean)/colSTD
     return df
 
+def stdNormalize2(df):
+
+    print(df)
+
+    normalized_df = df.copy
+
+    normalized_df[1:-1] = (df[1:-1]-df[1:-1].mean()) / df[1:-1].std()
+
+    print(normalized_df)
+    return normalized_df
 
 def createMetricsMatrix(df):
     metrics = []
@@ -416,16 +426,16 @@ def treeBasedFeatureSelection(df):
     X = df.drop(["label", "sample_ID"], axis = 1)
     clf = ExtraTreesClassifier(n_estimators=50)
     clf = clf.fit(X, Y)
-    print(clf.feature_importances_)
+    #print(clf.feature_importances_)
     model = SelectFromModel(clf, prefit=True)
     X_new = model.transform(X)
     #print(model.get_feature_names_out())
-    print(model.get_support())
+    #print(model.get_support())
     selected_features = model.get_support()
     selected_features = selected_features.tolist()
     selected_features.insert(0, True)
     selected_features.append(True)
-    print(selected_features)
+    #print(selected_features)
     column_indices = []
     # Iterate over the list
     for i, item in enumerate(selected_features):
@@ -433,39 +443,58 @@ def treeBasedFeatureSelection(df):
         if item:
             column_indices.append(i)
 
-    print('New shape', X_new.shape)
+    #print('New shape', X_new.shape)
     X_new = np.concatenate((X_new, Y.reshape(-1, 1)), axis=1)
     #X_new = np.concatenate((df["sample_ID"].values.reshape(-1, 1), axis=1))
     #df_new = pd.DataFrame(data=X_new, columns=df.columns[])+
-    print(column_indices)
-    print(df.columns[column_indices])
+    #print(column_indices)
+    #print(df.columns[column_indices])
     selected_features = df.columns[column_indices]
     df_new = df[selected_features]
     return df_new
+
+def overSampling(df):
+    from imblearn.over_sampling import SMOTE
+
+    oversample = SMOTE()
+
+    X = df[df.columns[1:-1]].values
+    y = df[df.columns[-1]]
+    X, y = oversample.fit_resample(X, y)
+
+    df_new = pd.DataFrame(X, columns=df.columns[1:-1])
+    df_new['label'] = y
+    return df_new
+
 
 
 def pipeline():
     level = 'class'
 
     df = unionMatrix(level)
-    print('union', df.shape)
+    #print('union', df.shape)
 
     # Use alternatively the tree based feature selection, or the reduce data method (remove outliers ond zero columns)
-    #df = treeBasedFeatureSelection(df)
-    df = reduceData(df)
-    print('reducedUnion', df.shape)
+    #df = reduceData(df)
+    #print('reducedUnion', df.shape)
 
-    pca(df.drop(columns=df.columns.values[0]))
+    #pca(df.drop(columns=df.columns.values[0]))
 
-    df.to_csv('unionMatrix_Reduced_' + level + '.csv', index=False)
+    #df.to_csv('unionMatrix_TreeBasedClassifier' + level + '.csv', index=False)
 
     df = stdNormalize(df)
 
-    #treeBasedFeatureSelection(df.drop(["label", "sample_ID"]), df["label"])
-    df.to_csv('unionMatrix_Reduced_Normalized_' + level + '.csv', index=False)
+    df = treeBasedFeatureSelection(df)
 
-    df = df.drop(columns=df.columns.values[0])
-    df.to_csv('unionMatrix_Reduced_Normalized_withoutSampleID_' + level + '.csv', index=False)
+    #df.to_csv('unionMatrix_TreeBasedClassifier_Normalized' + level + '.csv', index=False)
+
+    df = overSampling(df)
+
+    # SMOTE matrix does not have sample_ID anymore
+    df.to_csv('DataMatrices/' + level + '/unionMatrix_TreeBasedClassifier_Normalized_SMOTE_' + level + '.csv', index=False)
+
+    #df = df.drop(columns=df.columns.values[0])
+    #df.to_csv('unionMatrix_TreeBasedClassifier_Normalized_withoutSampleID_' + level + '.csv', index=False)
 
 
 
