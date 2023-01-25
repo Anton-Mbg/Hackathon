@@ -469,7 +469,7 @@ def overSampling(df):
 
 
 def pipeline():
-    level = 'class'
+    level = 'genus'
 
     df = unionMatrix(level)
     #print('union', df.shape)
@@ -480,18 +480,18 @@ def pipeline():
 
     #pca(df.drop(columns=df.columns.values[0]))
 
-    #df.to_csv('unionMatrix_TreeBasedClassifier' + level + '.csv', index=False)
+    df = treeBasedFeatureSelection(df)
+
+    df.to_csv('DataMatrices/' + level + '/unionMatrix_TreeBasedClassifier_' + level + '.csv', index=False)
 
     df = stdNormalize(df)
 
-    df = treeBasedFeatureSelection(df)
+    df.to_csv('DataMatrices/' + level + '/unionMatrix_TreeBasedClassifier_Normalized_' + level + '.csv', index=False)
 
-    #df.to_csv('unionMatrix_TreeBasedClassifier_Normalized' + level + '.csv', index=False)
-
-    df = overSampling(df)
+    #df = overSampling(df)
 
     # SMOTE matrix does not have sample_ID anymore
-    df.to_csv('DataMatrices/' + level + '/unionMatrix_TreeBasedClassifier_Normalized_SMOTE_' + level + '.csv', index=False)
+    #df.to_csv('DataMatrices/' + level + '/unionMatrix_TreeBasedClassifier_Normalized_SMOTE_' + level + '.csv', index=False)
 
     #df = df.drop(columns=df.columns.values[0])
     #df.to_csv('unionMatrix_TreeBasedClassifier_Normalized_withoutSampleID_' + level + '.csv', index=False)
