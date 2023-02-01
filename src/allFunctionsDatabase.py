@@ -179,7 +179,8 @@ def minmaxNormalize(df):
 
 def stdNormalize(df):
 
-    for col in df.columns[1:-1]:
+    for col in df.columns[0:-1]:
+        print(col)
         colMean = df[col].mean()
         colSTD = np.std(df[col])
         #print(df[col, 0])
@@ -422,8 +423,16 @@ def treeBasedFeatureSelection(df):
     from sklearn.ensemble import ExtraTreesClassifier
     from sklearn.feature_selection import SelectFromModel
 
+    print(df)
+    print(df.size)
+
+    df.drop(df.columns[0], axis = 1, inplace=True)
+
+    print(df)
+    print(df.size)
+
     Y = np.array(df[["label"]]).ravel()
-    X = df.drop(["label", "sample_ID"], axis = 1)
+    X = df.drop(["label"], axis = 1)
     clf = ExtraTreesClassifier(n_estimators=50)
     clf = clf.fit(X, Y)
     #print(clf.feature_importances_)
@@ -433,7 +442,7 @@ def treeBasedFeatureSelection(df):
     #print(model.get_support())
     selected_features = model.get_support()
     selected_features = selected_features.tolist()
-    selected_features.insert(0, True)
+    #selected_features.insert(0, True)
     selected_features.append(True)
     #print(selected_features)
     column_indices = []
@@ -469,9 +478,9 @@ def overSampling(df):
 
 
 def pipeline():
-    level = 'genus'
-
-    df = unionMatrix(level)
+    level = 'class'
+    #'../Hackathon_Microbiome_Train_Combined/Train_Combined/train_combined_Class.csv'
+    #df = unionMatrix(level)
     #print('union', df.shape)
 
     # Use alternatively the tree based feature selection, or the reduce data method (remove outliers ond zero columns)
@@ -479,6 +488,8 @@ def pipeline():
     #print('reducedUnion', df.shape)
 
     #pca(df.drop(columns=df.columns.values[0]))
+
+    df = pd.read_csv('../Hackathon_Microbiome_Train_Combined/Train_Combined/train_combined_Class.csv')
 
     df = treeBasedFeatureSelection(df)
 
