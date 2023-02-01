@@ -478,7 +478,7 @@ def overSampling(df):
 
 
 def pipeline():
-    level = 'class'
+    level = 'genus'
     #'../Hackathon_Microbiome_Train_Combined/Train_Combined/train_combined_Class.csv'
     #df = unionMatrix(level)
     #print('union', df.shape)
@@ -489,7 +489,7 @@ def pipeline():
 
     #pca(df.drop(columns=df.columns.values[0]))
 
-    df = pd.read_csv('../Hackathon_Microbiome_Train_Combined/Train_Combined/train_combined_Class.csv')
+    df = pd.read_csv('../Hackathon_Microbiome_Train_Combined/Train_Combined/train_combined_Genus.csv')
 
     df = treeBasedFeatureSelection(df)
 
